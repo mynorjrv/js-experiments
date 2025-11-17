@@ -1,0 +1,38 @@
+<p>Drag the square to move it:</p>
+<div style="background: orange; position: absolute; width: 20px; height: 20px; top: 250px; left: 300px;">
+</div>
+<script>
+  let lastX; // Tracks the last observed mouse X position
+  let lastY;
+  let square = document.querySelector("div");
+  square.addEventListener("mousedown", start_moving);
+
+  function start_moving(event) {
+    if (event.button == 0) {
+      lastX = event.clientX;
+      lastY = event.clientY;
+      window.addEventListener("mousemove", moved);
+      event.preventDefault(); // Prevent selection
+    }
+  }
+
+  function moved(event) {
+    if (event.buttons == 0) {
+      window.removeEventListener("mousemove", moved);
+    } else {
+      // let dist = event.clientX - lastX;
+      // let newWidth = Math.max(10, square.offsetWidth + dist);
+      // square.style.width = newWidth + "px";
+
+      let xOffset = lastX - square.offsetLeft;
+      let yOffset = lastY - square.offsetTop;
+      let newLeft = Math.max(10,event.clientX - xOffset);
+      let newTop = Math.max(10,event.clientY - yOffset);
+      square.style.left = newLeft + "px";
+      square.style.top = newTop + "px";
+      
+      lastX = event.clientX;
+      lastY = event.clientY;
+    }
+  }
+</script>
