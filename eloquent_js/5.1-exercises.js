@@ -43,7 +43,7 @@ function every(array, test) {
     return true;
 };
 
-// Yep, I saw the hist
+// Yep, I saw the hint
 // the DeMorgan law was a pretty detail
 function every_on_some(array, test) {
     return !array.some(a => !test(a))
