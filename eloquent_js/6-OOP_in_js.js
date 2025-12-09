@@ -139,3 +139,146 @@ console.log(
 
 // This is doing reaaaaaaally weel xd wtf
 // But I will get prototypes and classes for tomorrow
+
+// Prototypes are a way to keep the methods of
+// certain types in the same place, rather than
+// adding methods individually.
+
+// The OG object is Object.prototype
+let empty = {};
+console.log(empty.toString);
+// → function toString(){…}
+console.log(empty.toString());
+// → [object Object]
+
+// It looks like toString is a property inside
+// an empty object, but it was getted from the
+// Object.prototype.
+
+// We have a resloution order where when a property
+// is not found in an object, the property is searched
+// in the protorype, and so on until an object without 
+// prototype is reached (like Object.prototype)
+
+console.log(Object.getPrototypeOf({}) == Object.prototype);
+// → true
+console.log(Object.getPrototypeOf(Object.prototype));
+// → null
+
+// And we have another types of prototypes
+console.log(
+  Object.getPrototypeOf(Math.max) ==
+  Function.prototype
+);
+// → true
+console.log(
+  Object.getPrototypeOf([]) == Array.prototype
+);
+// → true
+
+
+// Again, prototypes provides the methods that
+// An object that comes from that prototype
+let protoRabbit = {
+  speak(line) {
+    console.log(`The ${this.type} rabbit says '${line}'`);
+  }
+};
+let blackRabbit = Object.create(protoRabbit);
+blackRabbit.type = "black";
+blackRabbit.speak("I am fear and darkness");
+// → The black rabbit says 'I am fear and darkness'
+
+// The prototype thou does not have the 
+// atributes of the objects (like type).
+// But I guess you can do it, the thing about
+// prototypes is that they contain things that
+// all objects that come from the prototype share.
+// It is like inheritance.
+
+
+// The js prototype system is called a free-form
+// take on abstract data types or classes.
+
+// Classes define the shape of a type of object,
+// what propertires (methods and attributes) it has.
+// An object is called an instance of the class.
+
+// Yessss, we talked about this, properties that
+// need to be different per object have to be stored
+// directly in the objects themselves.
+
+// The funny part xd we can have a constructor of a class
+// whithout having use the class keyword xd
+// the constructor is basically a function that
+// creates an object, ensuring the properties the object
+// is supposed to have are actually stored.
+function makeRabbit(type) {
+  let rabbit = Object.create(protoRabbit);
+  rabbit.type = type;
+  return rabbit;
+}
+
+
+// Whith the class keyword what we have is 
+// a constructor and the prototype
+class Rabbit {
+  constructor(type) {
+    this.type = type;
+  }
+  speak(line) {
+    console.log(`The ${this.type} rabbit says '${line}'`);
+  }
+}
+
+// JAJAJJJAJ this is so funny xd
+// The code defines a binding called Rabbit, it holds
+// a function that runs the contructor and has 
+// a prototype property that hold the methods.
+
+// To create an instance of the class we use the
+// new keyword
+
+let killerRabbit = new Rabbit("killer");
+
+
+// JAJAJAJAJAJA and classes were introduced later
+// Originally, to create a class you used the function keyword
+
+// function ArchaicRabbit(type) {
+//   this.type = type;
+// }
+// ArchaicRabbit.prototype.speak = function(line) {
+//   console.log(`The ${this.type} rabbit says '${line}'`);
+// };
+// let oldSchoolRabbit = new ArchaicRabbit("old school");
+
+
+// And a strange difference:
+// objects have a prototype, but prototypes are
+// associated with a contructur through its prototype property.
+
+console.log(Object.getPrototypeOf(Rabbit) ==
+            Function.prototype);
+// → true
+console.log(Object.getPrototypeOf(killerRabbit) ==
+            Rabbit.prototype);
+// → true
+
+
+// Other things, we can create per instance properties using
+// this. And it is also possible to declare properties in the
+// class declaration, but class properties are not added to
+// the prototype, they are just added to the instances.
+
+class Particle {
+  speed = 0;
+  constructor(position) {
+    this.position = position;
+  }
+}
+
+// JAJAJJAJAJA and whe can have unnamed classes
+let object = new class { getWord() { return "hello"; } };
+console.log(object.getWord());
+// → hello
