@@ -282,3 +282,170 @@ class Particle {
 let object = new class { getWord() { return "hello"; } };
 console.log(object.getWord());
 // → hello
+
+
+// Aaaaaand we have private properties,
+// not much to say apart than then have to be declared
+// in the class body
+
+// and a detail, a class withouth a constructor
+// gets an empty one.
+class SecretiveObject {
+  #getSecret() {
+    return "I ate all the plums";
+  }
+  interrogate() {
+    let shallISayIt = this.#getSecret();
+    return "never";
+  }
+}
+
+class RandomSource {
+  #max;
+  constructor(max) {
+    this.#max = max;
+  }
+  getNumber() {
+    return Math.floor(Math.random() * this.#max);
+  }
+}
+
+
+// you can override properies
+Rabbit.prototype.teeth = "small";
+console.log(killerRabbit.teeth);
+// → small
+killerRabbit.teeth = "long, sharp, and bloody";
+console.log(killerRabbit.teeth);
+// → long, sharp, and bloody
+console.log((new Rabbit("basic")).teeth);
+// → small
+console.log(Rabbit.prototype.teeth);
+// → small
+
+// The funny part is that we can override 
+// a class prototipe xd
+
+// Annnnnd we can have the same named properties
+// for different objects for example the toString 
+console.log(Array.prototype.toString ==
+            Object.prototype.toString);
+// → false
+console.log([1, 2].toString());
+// → 1,2
+
+// And we havent talked about call i guess
+// but aparently you can use
+console.log(Object.prototype.toString.call([1, 2]));
+// → [object Array]
+
+
+
+// This is kind of strange...
+let ages = {
+  Boris: 39,
+  Liang: 22,
+  Júlia: 62
+};
+
+console.log(`Júlia is ${ages["Júlia"]}`);
+// → Júlia is 62
+console.log("Is Jack's age known?", "Jack" in ages);
+// → Is Jack's age known? false
+console.log("Is toString's age known?", "toString" in ages);
+// → Is toString's age known? true
+
+// aparently, we dont want plain objects to be
+// used as maps because they include propertires
+// that we did not declare (like toString)
+
+// We could use a non derived object
+console.log("toString" in Object.create(null));
+// → false
+
+// But in this case we only have access to string keys
+
+// The "solution" is to use Maps
+// let ages = new Map();
+ages = new Map();
+ages.set("Boris", 39);
+ages.set("Liang", 22);
+ages.set("Júlia", 62);
+
+console.log(`Júlia is ${ages.get("Júlia")}`);
+// → Júlia is 62
+console.log("Is Jack's age known?", ages.has("Jack"));
+// → Is Jack's age known? false
+console.log(ages.has("toString"));
+// → false
+console.log("Is toString's age known?", "toString" in ages);
+
+// But if we reapeat the "in" but with the methods, 
+// we also get true xd isnt that the same problem?
+console.log("Is set age known?", "set" in ages);
+
+// set, get, and has are parte of the interface of maps
+// sooooo idk, I dont know if we have more keys in the interface
+
+// And if we want to use a plain object we can use Object.keys
+// to get the properties of that object, not the prototype
+console.log(Object.hasOwn({x: 1}, "x"));
+// → true
+console.log(Object.hasOwn({x: 1}, "toString"));
+// → false
+
+
+
+// This difficult part about defining polymorphism
+Rabbit.prototype.toString = function() {
+  return `a ${this.type} rabbit`;
+};
+
+console.log(String(killerRabbit));
+// → a killer rabbit
+
+// The idea is that any kind of object that supports
+// the .toString interface, can be plogged into String()
+// and will work.
+
+// The idea is that polymorphic code can work with values
+// of different shapes, as long as they support the interface
+// the code expects.
+
+// Again... We have this .call syntaxis
+Array.prototype.forEach.call({
+  length: 2,
+  0: "A",
+  1: "B"
+}, elt => console.log(elt));
+// → A
+// → B
+// It is to show that Array.prototype.forEach
+// provides the .forEach interface...I guess
+
+// From the docu
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+// The forEach() method reads the length property 
+// of this and then accesses each property whose key 
+// is a nonnegative integer less than length.
+const arrayLike = {
+  length: 3,
+  0: 2,
+  1: 3,
+  2: 4,
+  3: 5, // ignored by forEach() since length is 3
+};
+Array.prototype.forEach.call(arrayLike, (x) => console.log(x));
+// 2
+// 3
+// 4
+
+// The .call syntax is from 
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call
+// THe method is Function.prototype.call(
+
+// The call() method of Function instances calls 
+// this function with a given this value and 
+// arguments provided individually.
+
+// Aparently, all functions have the .call property
