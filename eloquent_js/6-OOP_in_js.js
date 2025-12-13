@@ -449,3 +449,47 @@ Array.prototype.forEach.call(arrayLike, (x) => console.log(x));
 // arguments provided individually.
 
 // Aparently, all functions have the .call property
+
+
+// Well, lets move on xd
+// Getters are methods that are called as simple properties
+// The idea is to make calculations when the property is called
+let varyingSize = {
+  get size() {
+    return Math.floor(Math.random() * 100);
+  }
+};
+
+console.log(varyingSize.size);
+// → 73
+console.log(varyingSize.size);
+// → 49
+
+
+// This works, for example, when values are convertible
+// but we want to store just one of them
+class Temperature {
+  constructor(celsius) {
+    this.celsius = celsius;
+  }
+  get fahrenheit() {
+    return this.celsius * 1.8 + 32;
+  }
+  set fahrenheit(value) {
+    this.celsius = (value - 32) / 1.8;
+  }
+
+  static fromFahrenheit(value) {
+    return new Temperature((value - 32) / 1.8);
+  }
+}
+
+// A problem that I have taugth(?) is
+// that I can arbitrarialy add properties to an object
+// right? isnt that strange?
+
+// anyways xd 
+
+// static methos are stored in the constructor,
+// They are not accessed through instances but may 
+// be used to create instances in an alternative way
