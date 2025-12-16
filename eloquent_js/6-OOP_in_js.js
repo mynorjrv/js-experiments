@@ -493,3 +493,59 @@ class Temperature {
 // static methos are stored in the constructor,
 // They are not accessed through instances but may 
 // be used to create instances in an alternative way
+
+let temp = new Temperature(22);
+console.log(temp.fahrenheit);
+// → 71.6
+temp.fahrenheit = 86;
+console.log(temp.celsius);
+// → 30
+
+let boil = Temperature.fromFahrenheit(212);
+console.log(boil.celsius);
+// → 100
+
+// JAJAJAJA i wanted something easy... But now
+// we have symbols, and i dont undertand them xd
+
+// First, it is posible for multiple interfaces to use
+// the same property name for different things.
+// length of an array is the number of elements
+// length of a "travel" object is the length of the route
+// in meters. Both interfaces are not compatible
+
+// For some protocols, properties must not conflict
+// with any others, thats why symbols exist
+
+// They function as unique identifiers of an specific property
+const length = Symbol("length");
+Array.prototype[length] = 0;
+
+// Using the string length property
+console.log([1, 2].length);
+// → 2
+// Using the unique identifier named length
+console.log([1, 2][length]);
+// → 0
+
+
+// okey... the interesting part is the language itself
+// stores symbols. The one we are studying now is 
+// Symbol.iterator
+
+// And the idea is as follows
+// "OK" is an object which haves the Symbol.iterator property
+// That property stores another interface, the actual iterator
+// The iterator is strange, it is a function that when called
+// without arguments I get an object. That object is the one
+// that performs the .next() actions.
+let okIterator = "OK"[Symbol.iterator]();
+console.log(okIterator.next());
+// → {value: "O", done: false}
+console.log(okIterator.next());
+// → {value: "K", done: false}
+console.log(okIterator.next());
+// → {value: undefined, done: true}
+
+// This is absolutely not begginer friendly wtf xd
+// Lets see an implementation tomorrow
