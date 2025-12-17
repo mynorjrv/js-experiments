@@ -549,3 +549,103 @@ console.log(okIterator.next());
 
 // This is absolutely not begginer friendly wtf xd
 // Lets see an implementation tomorrow
+
+
+// Hi again myself from the past xd it is tomorrow
+// so we are implementing an iterator for a linked list
+// Instead of the previous implementarion, we are going to use
+// a class
+class List {
+  constructor(value, rest) {
+    this.value = value;
+    this.rest = rest;
+  }
+
+  get length() {
+    return 1 + (this.rest ? this.rest.length : 0);
+  }
+
+  static fromArray(array) {
+    let result = null;
+    for (let i = array.length - 1; i >= 0; i--) {
+      result = new this(array[i], result);
+    }
+    return result;
+  }
+}
+// this inside a static calls the constructor of the class
+
+// Iterating over a list should return the list's elements
+// from start to end
+// The iterator is implemented as a separate class
+class ListIterator {
+  constructor(list) {
+    this.list = list;
+  }
+
+  next() {
+    if (this.list == null) {
+      return {done: true};
+    }
+    let value = this.list.value;
+    this.list = this.list.rest;
+    return {value, done: false};
+  }
+}
+// We are implementing the requirements for an iterator
+// a next method, returning objects with value and done
+
+// adding it to our class is simple:
+// we use the Symbol.iterator identifier to assign a function
+// which returns the list iterator object
+List.prototype[Symbol.iterator] = function() {
+  return new ListIterator(this);
+};
+
+let list = List.fromArray([1, 2, 3]);
+for (let element of list) {
+  console.log(element);
+}
+// → 1
+// → 2
+// → 3
+
+// And a detail, the unpacking notation ...
+// can be used with iterators
+console.log([..."PCI"]);
+// → ["P", "C", "I"]
+
+
+
+// Hmmmm inheritance also looks funny, but not 
+// funny fun, funny strange
+class LengthList extends List {
+  #length;
+
+  constructor(value, rest) {
+    super(value, rest);
+    this.#length = super.length;
+  }
+
+  get length() {
+    return this.#length;
+  }
+}
+
+console.log(LengthList.fromArray([1, 2, 3]).length);
+// → 3
+
+// And we actually try to not inherit xd 
+// It would be interesting how to compose
+
+// And to end... instanceof xd  
+console.log(
+  new LengthList(1, null) instanceof LengthList);
+// → true
+console.log(new LengthList(2, null) instanceof List);
+// → true
+console.log(new List(3, null) instanceof LengthList);
+// → false
+console.log([1] instanceof Array);
+// → true
+
