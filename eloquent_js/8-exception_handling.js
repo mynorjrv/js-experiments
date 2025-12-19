@@ -145,5 +145,142 @@ function lastElement(array) {
 
 // The problem with special return values is that wherever we
 // called the function, we need to check for that value.
+// Is that what we call error propagation?
 
 // Ta bieeeeen, lets finish tomorrow
+
+
+
+// Now, lets see exceptions
+// The idea of stoping a program when it didnt proceeded normally
+// and jumping to a place where we know how to handle the problem
+// is Exception Handling
+
+// Exceptions unwinds the call stack from the level where the 
+// exception was met and throwing away all the call contexts
+
+// Handling exceptions means to set "obstacles" to catch the exceptions
+// in their way up the stack.
+
+// But I already knew that xd why am I sumarizing
+function promptDirection(question) {
+  let result = prompt(question);
+  if (result.toLowerCase() == "left") return "L";
+  if (result.toLowerCase() == "right") return "R";
+  throw new Error("Invalid direction: " + result);
+}
+
+function look() {
+  if (promptDirection("Which way?") == "L") {
+    return "a house";
+  } else {
+    return "two angry bears";
+  }
+}
+
+try {
+  console.log("You see", look());
+} catch (error) {
+  console.log("Something went wrong: " + error);
+}
+
+// All standard. A detail, instances of Error gather information
+// about the call stack that existed when the exception was created,
+// it is called a stack trace. 
+// .stack is a property of the Error objects that contains 
+// the function where the error ocurred and which functions made
+// the failing call.
+
+
+// Cleaning the mess :)
+// Exceptions might prevent some parts of control flow to take place
+// Code with side effects could easily be affected by this,
+// also using mutable data could be affected.
+
+const accounts = {
+  a: 100,
+  b: 0,
+  c: 20
+};
+
+function getAccount() {
+  let accountName = prompt("Enter an account name");
+  if (!Object.hasOwn(accounts, accountName)) {
+    throw new Error(`No such account: ${accountName}`);
+  }
+  return accountName;
+}
+
+// function transfer(from, amount) {
+//   if (accounts[from] < amount) return;
+//   accounts[from] -= amount;
+//   accounts[getAccount()] += amount;
+// }
+
+// Aaaaand we have a finally to try managing this
+function transfer(from, amount) {
+  if (accounts[from] < amount) return;
+  let progress = 0;
+  try {
+    accounts[from] -= amount;
+    progress = 1;
+    accounts[getAccount()] += amount;
+    progress = 2;
+  } finally {
+    if (progress == 1) {
+      accounts[from] += amount;
+    }
+  }
+}
+
+
+// JAJAJAJAJ we dont have selective catching in JS
+
+// Some details, when an exception is kept unhandled, it is handled
+// by the environment. Browsers write to console, node aborts the 
+// whole process.
+
+// For programming mistakes, unhandled exceptions are a good
+// way to signal a corrupted program.
+
+// For expected problems, we want to explicitly handle them.
+
+// The problem, we cannot differenciate what caused the exception.
+// And we usually dont want to use balnket-catch exceptions
+
+// To solve this, we can make custom exceptions
+class InputError extends Error {}
+
+function promptDirection(question) {
+  let result = prompt(question);
+  if (result.toLowerCase() == "left") return "L";
+  if (result.toLowerCase() == "right") return "R";
+  throw new InputError("Invalid direction: " + result);
+}
+
+for (;;) {
+  try {
+    let dir = promptDirection("Where?");
+    console.log("You chose ", dir);
+    break;
+  } catch (e) {
+    if (e instanceof InputError) {
+      console.log("Not a valid direction. Try again.");
+    } else {
+      throw e;
+    }
+  }
+}
+
+
+// And we can write assertions by hand. The idea is to
+// blow up the program when programming errors happen.
+// And should be reserved for common and easy to make mistakes.
+function firstElement(array) {
+  if (array.length == 0) {
+    throw new Error("firstElement called with []");
+  }
+  return array[0];
+}
+
+
