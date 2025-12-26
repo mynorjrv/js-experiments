@@ -171,3 +171,45 @@ console.log(cartoonCrying.test("Boohoooohoohooo"));
 // hoo's.
 // The i at the end of the expression makes it case
 // insensitive.
+
+
+// Additional to the test method we have .exec
+// It returns null if there is not match, 
+// and a match object otherwise
+let match = /\d+/.exec("one two 100");
+console.log(match);
+// → ["100"]
+console.log(match.index);
+// → 8
+
+// Ahhh but just the first match is returned
+
+// Strings have a similar method 
+console.log("one two 100".match(/\d+/));
+// → ["100"]
+
+
+// When matching patterns in parenthesis
+// The objects will contain the full match 
+// and the subpatterns
+let quotedText = /'([^']*)'/;
+console.log(quotedText.exec("she said 'hello'"));
+// → ["'hello'", "hello"]
+
+
+// Matching a variable patterns seems strange
+console.log(/bad(ly)?/.exec("bad"));
+// → ["bad", undefined]
+console.log(/(\d)+/.exec("123"));
+// → ["123", "3"]
+
+// With + we are matching the full match
+// and the last smallest match
+
+
+// To hide the subpatterns we can use ?: 
+// at the start of the subpattern
+console.log(/(?:na)+/.exec("banana"));
+// → ["nana"]
+
+// Subpatterns are actually called groups xd
