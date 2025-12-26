@@ -213,3 +213,49 @@ console.log(/(?:na)+/.exec("banana"));
 // → ["nana"]
 
 // Subpatterns are actually called groups xd
+
+
+
+// Js has its own Date class :)
+// Glad to not be dealing with dates using regex
+
+// Current date
+console.log(new Date());
+// → Fri Feb 02 2024 18:03:06 GMT+0100 (CET)
+
+// Specific datetime
+console.log(new Date(2009, 11, 9));
+// → Wed Dec 09 2009 00:00:00 GMT+0100 (CET)
+console.log(new Date(2009, 11, 9, 12, 59, 59, 999));
+// → Wed Dec 09 2009 12:59:59 GMT+0100 (CET)
+
+
+// JAJAJAJAJAJA months are 0-indexed but days
+// are 1-indexed xdxdxd 
+
+// Dates are stored as number of miliseconds since
+// 1970 in utc time zone, this is the "unix" time.
+// //.getTime returns this number
+console.log(new Date(2013, 11, 19).getTime());
+// → 1387407600000
+// A single argument is treated as a milisecond count
+console.log(new Date(1387407600000));
+// → Thu Dec 19 2013 00:00:00 GMT+0100 (CET)
+
+// To get the milisecond count of now we can create
+// an object or we can use the function Date.now
+
+// Some useful methods: getFullYear, getMonth, getDate,
+// getHours, getMinutes, getSeconds
+// Lets ignore getYear xd
+
+// aaaand we can use regex to try to create pretty datetime objects
+// The _ can also be used to unpack and I should review unpacking
+// it seems strange in this case.
+function getDate(string) {
+  let [_, month, day, year] =
+    /(\d{1,2})-(\d{1,2})-(\d{4})/.exec(string);
+  return new Date(year, month - 1, day);
+}
+console.log(getDate("1-30-2003"));
+// → Thu Jan 30 2003 00:00:00 GMT+0100 (CET)
