@@ -259,3 +259,72 @@ function getDate(string) {
 }
 console.log(getDate("1-30-2003"));
 // → Thu Jan 30 2003 00:00:00 GMT+0100 (CET)
+
+
+
+// We can use boundaries and look-aheads
+// which help to match a whole string
+
+// ^ is called a caret and matches the start
+// of the input string
+// $ matches the end
+
+// For example
+// /^\d+$/ is a string exclusively made up of digits
+// /^!/ matches any string starting with !
+// /x^/ does not match any string because there cannot
+// be an x before the beggining of the string
+
+
+// \b thecnically matches word boundaries (space-alphanum)
+// but it is not very reliable
+
+
+// look-aheads work similarly. They provide a pattern
+// and will make the match fail if the input does not match
+// that pattern, but dont move the match position forward
+
+console.log(/a(?=e)/.exec("braeburn"));
+// → ["a"]
+console.log(/a(?! )/.exec("a b"));
+// → null
+
+// (?=) means the pattern after the = is necessary to match
+// but is not part of the matched string.
+// /a(?=e)/ matches an a followed by an e but do not include the e
+// (?!) is a negative look-ahead. This only match if the pattern
+// doesnt match.
+
+
+
+// And we can also have patterns of different choices
+let animalCount = /\d+ (pig|cow|chicken)s?/;
+console.log(animalCount.test("15 pigs"));
+// → true
+console.log(animalCount.test("15 pugs"));
+// → false
+
+// This is like an or
+
+
+
+// Sehhhhh... I will learn about automatas at some point.
+// But regex patterns can be represented with cool diagrams.
+// The idea is to find a path from the start of the diagram
+// to the end, if we find a path then our expression matches.
+
+// This process of matching part by part produces backtracking.
+// When a pattern fails, it returns to the previous part to
+// try and match another path of the pattern. This can cause
+// that a pattern has to try an exponential ammount of possible
+// paths.
+
+// Its kind of confusing but... I found 
+// https://stackoverflow.com/questions/9011592/in-regular-expressions-what-is-a-backtracking-back-referencing
+// https://stackoverflow.com/questions/8132412/which-regular-expression-requires-backtracking
+// https://www.regular-expressions.info/catastrophic.html
+
+// Catastrophic
+// ^(.*?,){11}P
+// Better, but I do not understand it
+// ^([^,\r\n]*,){11}P
