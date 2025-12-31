@@ -328,3 +328,58 @@ console.log(animalCount.test("15 pugs"));
 // ^(.*?,){11}P
 // Better, but I do not understand it
 // ^([^,\r\n]*,){11}P
+
+
+
+// We have a replace method xd 
+console.log("papa".replace("p", "m"));
+// → mapa
+
+// And we can replace using regex
+console.log("Borobudur".replace(/[ou]/, "a"));
+// → Barobudur
+// When replacing, a g (for "global") can be added
+// so all matches are replaced, not just the first.
+console.log("Borobudur".replace(/[ou]/g, "a"));
+// → Barabadar
+
+// JAJAJAJAJA replace can make some strange stuff 
+// working with the marched groups
+console.log(
+  "Liskov, Barbara\nMcCarthy, John\nMilner, Robin"
+    .replace(/(\p{L}+), (\p{L}+)/gu, "$2 $1"));
+// → Barbara Liskov
+//   John McCarthy
+//   Robin Milner
+
+// In the replacement string, the $2 and $1 refer to
+// the parenthesized grpups in the pattern. This works
+// all the way up to $9... Is there a way to use more groups?
+// The whole match can be referred to with $&
+
+// And some more funny stuff, we can pass a function
+// instead of a string as the second argument
+// For each replacement, the funtion will be called with
+// the matched groups (as well as the whole match) as arguments
+// and the retrun value will be inserted in the new string
+
+let stock = "1 lemon, 2 cabbages, and 101 eggs";
+function minusOne(match, amount, unit) {
+  amount = Number(amount) - 1;
+  if (amount == 1) { // only one left, remove the 's'
+    unit = unit.slice(0, unit.length - 1);
+  } else if (amount == 0) {
+    amount = "no";
+  }
+  return amount + " " + unit;
+}
+console.log(stock.replace(/(\d+) (\p{L}+)/gu, minusOne));
+// → no lemon, 1 cabbage, and 100 eggs
+
+// Again, when matching, the match object contains the
+// whole match and the groups in the pattern
+
+
+
+// THis chapter never eeeeeeeeeeeeeeends :(
+
