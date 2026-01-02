@@ -466,3 +466,120 @@ console.log("    ".search(/\S/));
 // Some strange stuff may happen when using global and 
 // for some reason we are insisting in using an offset
 // But that is for tomorrow xd
+
+
+// U know what xd lets skip the part about that 
+// global and index of stuff
+
+// Maybe an interesting part is the use of matchAll
+let input = "A string with 3 numbers in it... 42 and 88.";
+let matches = input.matchAll(/\d+/g);
+for (let match of matches) {
+  console.log("Found", match[0], "at", match.index);
+}
+// → Found 3 at 14
+//   Found 42 at 33
+//   Found 88 at 40
+
+
+
+// But lets go to a different problem n.n
+// Parsing :)
+// Lets parse this ini config file
+// searchengine=https://duckduckgo.com/?q=$1
+// spitefulness=9.7
+
+// ; comments are preceded by a semicolon...
+// ; each section concerns an individual enemy
+// [larry]
+// fullname=Larry Doe
+// type=kindergarten bully
+// website=http://www.geocities.com/CapeCanaveral/11451
+
+// [davaeorn]
+// fullname=Davaeorn
+// type=evil wizard
+// outputdir=/home/marijn/enemies/davaeorn
+
+// Whith the following rules
+// - Blank lines and lines starting with semicolons are ignored.
+// - Lines wrapped in [ and ] start a new section.
+// - Lines containing an alphanumeric identifier followed by an = character 
+// add a setting to the current section.
+// - Anything else is invalid.
+
+// And the function is reeeeeally funny 
+function parseINI(string) {
+  // Start with an object to hold the top-level fields
+  let result = {};
+  let section = result;
+  // New lines could have a return carriage character
+  for (let line of string.split(/\r?\n/)) {
+    let match;
+    // We assign inside the if xd
+    if (match = line.match(/^(\w+)=(.*)$/)) {
+      section[match[1]] = match[2];
+    } else if (match = line.match(/^\[(.*)\]$/)) {
+      // And we are using this funny stuff
+      // As i unsdertood, we are creating a new
+      // property with the name match[1] which is an
+      // empty object and then section is assigned to
+      // this new empty object.
+      // It feels like a dirty trick but okey
+      section = result[match[1]] = {};
+    } else if (!/^\s*(;|$)/.test(line)) {
+      throw new Error("Line '" + line + "' is not valid.");
+    }
+  };
+  return result;
+}
+
+console.log(parseINI(`
+name=Vasilis
+[address]
+city=Tessaloniki`));
+// → {name: "Vasilis", address: {city: "Tessaloniki"}}
+
+
+
+// regex operators like . or ? work on code units
+// and noth whole characters, which means that if
+// we are using a 2 code unit characters (as emojis)
+// we are going to se strange stuff
+console.log(/🍎{3}/.test("🍎🍎🍎"));
+// → false
+console.log(/<.>/.test("<🌹>"));
+// → false
+console.log(/<.>/u.test("<🌹>"));
+// → true
+
+// The solution: marking the patterns as unicode adding
+// a u. And I dont know how this affects other patters xd
+console.log(/🍎{3}/u.test("🍎🍎🍎"));
+// → true
+
+
+
+// summary xd
+// /abc/	A sequence of characters
+// /[abc]/	Any character from a set of characters
+// /[^abc]/	Any character not in a set of characters
+// /[0-9]/	Any character in a range of characters
+// /x+/	One or more occurrences of the pattern x
+// /x+?/	One or more occurrences, nongreedy
+// /x*/	Zero or more occurrences
+// /x?/	Zero or one occurrence
+// /x{2,4}/	Two to four occurrences
+// /(abc)/	A group
+// /a|b|c/	Any one of several patterns
+// /\d/	Any digit character
+// /\w/	An alphanumeric character (“word character”)
+// /\s/	Any whitespace character
+// /./	Any character except newlines
+// /\p{L}/u	Any letter character
+// /^/	Start of input
+// /$/	End of input
+// /(?=a)/	A look-ahead test
+
+
+// And im not doing the exercise for now :)
