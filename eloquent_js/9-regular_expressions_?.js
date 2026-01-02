@@ -383,3 +383,86 @@ console.log(stock.replace(/(\d+) (\p{L}+)/gu, minusOne));
 
 // THis chapter never eeeeeeeeeeeeeeends :(
 
+
+// We can use replace to remove comments from a
+// piece of js code
+function stripComments(code) {
+  return code.replace(/\/\/.*|\/\*[^]*\*\//g, "");
+}
+console.log(stripComments("1 + /* 2 */3"));
+// → 1 + 3
+console.log(stripComments("x = 10;// ten!"));
+// → x = 10;
+console.log(stripComments("1 /* a */+/* b */ 1"));
+// → 1  1
+
+// The pattern /\/\/.*|\/\*[^]*\*\//g consist of two parts
+// \/\/.* matches any // followed by any non-newline characters
+// . do not include newline characters
+// \/\*[^]*\*\/ matches multiline comments like /**/
+// [^] represents any character that is not in the empty
+// set of characters and [^]* is any number of those characters
+
+// JAJAJAJJAA but the last example fails
+// [^]* tries to consume as much characters as possible,
+// so it skips the first closing */ 
+
+// Repetition operators are greedy, they match as much as they can
+// and backtrack from there. We use ? to make them nongreedy,
+// this means they will start by matching as little as possible.
+// this aplies for all repetition operators (+?, *?, ??, {}?)
+
+function stripComments(code) {
+  return code.replace(/\/\/.*|\/\*[^]*?\*\//g, "");
+}
+console.log(stripComments("1 /* a */+/* b */ 1"));
+// → 1 + 1
+
+
+
+// And something that feels strange xd 
+// regex patterns can be dynamically created
+let person_name = "harry";
+let regexp = new RegExp("(^|\\s)" + person_name + "($|\\s)", "gi");
+console.log(regexp.test("Harry is a dodgy character."));
+// → true
+
+// In this case, we are using normal strings, so \ must be used to
+// scape the string and use the \s special character
+
+// The second argument of the constructor are the options for the
+// regex, in this case general and case insensitive
+
+// Since we are accepting normal strings, we need a way to scape all
+// spacial characters that may appear in the string
+let another_name = "dea+hl[]rd";
+let escaped = another_name.replace(/[\\[.+*?(){|^$]/g, "\\$&");
+let regexp_2 = new RegExp("(^|\\s)" + escaped + "($|\\s)",
+                        "gi");
+let text = "This dea+hl[]rd guy is super annoying.";
+console.log(regexp_2.test(text));
+// → true
+
+// The idea is that we take all special characters in the string
+// and replace them with \\character
+// Is strange that there is not a dedicated method to do this...
+
+
+
+// Strings have the indexOf method, for reges there is a similar method
+// called search. It rreturns the first index where the expression
+// was found or -1 if there is no match
+console.log("  word".search(/\S/));
+// → 2
+console.log("    ".search(/\S/));
+// → -1
+
+// Apaaarently indexOf can have an offset which apaaaarenly could be useful
+// but search does not have it
+
+
+
+
+// Some strange stuff may happen when using global and 
+// for some reason we are insisting in using an offset
+// But that is for tomorrow xd
