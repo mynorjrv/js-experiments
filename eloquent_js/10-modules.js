@@ -147,3 +147,52 @@ console.log(weekDay.name(weekDay.number("Sunday")));
 // this style exists, there is no reason to write new code 
 // with it :)
 
+
+
+// JAJJAJAJA aparently people dont like to write js(?)
+// Usually, if you use a dialect, what it does is to
+// compile the dialect back to js.
+
+// Aaaaaand another proces is that when you write or use
+// a lot of modules you actually do not want to send them
+// all when loading the webpage, it is faster to send
+// a single big file than a lot of tiny ones. There are tools
+// that handle this and are called bundlers.
+
+// Apart from sending a single file, we actually want to limit
+// the size of this file xd There are tools that remove
+// whitespace, change variable names to shorter ones and
+// that kind of optimization. They are called minifiers.
+
+
+
+// About design :)
+// Good program design is a negotiation
+// trade-offs and matters of taste.
+// It is something of practice
+
+// Simple and predictable interfaces are important
+
+// Single responsability
+// Simple data structure
+// And composition of modules:
+// Not a INI parser that reads files but a 
+// module that read files and a INI parser
+
+// Pure implementations are easier to compose
+
+// Objects for data if they are absolutely necessary
+// Functions for procedures, but better if everywhere
+
+// JAJAJAJAJA some stuff from OOP tradition is terrible
+
+// When possibe, stick to standard data structures
+
+
+
+// When exploring, dont worry about order, it can be a big
+// distraction xd
+// You make a mess and then organize it
+
+
+// And thats for today n.n
