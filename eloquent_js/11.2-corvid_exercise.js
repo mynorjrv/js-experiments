@@ -105,3 +105,49 @@ crackPasscode_refactor("HANGAR 2").then(console.log);
 // JAJAJA this is generally more pleasant than fighting with chains
 // of then calls. But we are actually using promises and we are still
 // interacting with them directly.
+
+
+// Aaaand again crisis because I do not know if this
+// should be in the original notes xd but lets continue here
+// The ability to pause and then resume excecution is not 
+// exclusive to async functions. We also have generators :)
+
+// function* defines a generator, when you call a generator 
+// you receive an iterator
+
+function* powers(n) {
+  for (let current = n;; current *= n) {
+    yield current;
+  }
+}
+
+for (let power of powers(3)) {
+  if (power > 50) break;
+  console.log(power);
+}
+// → 3
+// → 9
+// → 27
+
+// Again, copying literally:
+// Initially, when you call powers, the function is frozen at 
+// its start. Every time you call next on the iterator, 
+// the function runs until it hits a yield expression, 
+// which pauses it and causes the yielded value to become 
+// the next value produced by the iterator. When the function 
+// returns (the one in the example never does), the iterator 
+// is done.
+
+// JAJAJAJAJA and they area actually usefull to write iterators
+// For example the iterator for the Group class can be written as
+// Group.prototype[Symbol.iterator] = function*() {
+//   for (let i = 0; i < this.members.length; i++) {
+//     yield this.members[i];
+//   }
+// };
+
+// yield statements are local to the environment of the generator
+// and not in an inner function you define inside of it.
+
+// Hmmmm async is a special type of generator. The await resembles
+// a yield(?), confused.
