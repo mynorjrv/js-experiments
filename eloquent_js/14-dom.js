@@ -121,3 +121,63 @@
 
 // Next part is about moving through the tree
 
+// All nodes have a wealth of links to other nearby nodes xd
+// Every node has a parentNode
+// Every element node has a childNodes, that points to an array-like
+// holding its children.
+
+// We also have: 
+// firstChild
+// lastChild
+// previousSibling
+// nextSibling
+
+// We have children, which is like childNodes but contains only
+// elements (type 1) children, not other types of child nodes.
+
+// we can use recursion when dealing with nested data structures:
+function talksAbout(node, string) {
+  if (node.nodeType == Node.ELEMENT_NODE) {
+    for (let child of node.childNodes) {
+      if (talksAbout(child, string)) {
+        return true;
+      }
+    }
+    return false;
+  } else if (node.nodeType == Node.TEXT_NODE) {
+    return node.nodeValue.indexOf(string) > -1;
+  }
+}
+
+console.log(talksAbout(document.body, "book"));
+// → true
+
+
+// Navigating the parent children relation can be useful,
+// but when we want to use specific nodes, this aproach bakes
+// assumptions about the structure of the document.
+//
+// The idea is simple, instead of saying "get the second child of
+// the sixth child of the document body" we say "get the first link
+// in the document"
+
+let link = document.body.getElementsByTagName("a")[0];
+console.log(link.href);
+
+// getElkementByTagName collects all elements with the given tag name
+// which are descendants of the referenced node (in this case document.body)
+
+// To identify single nodes we can use ids and use gerElementById
+// <p>My ostrich Gertrude:</p>
+// <p><img id="gertrude" src="img/ostrich.png"></p>
+
+// <script>
+//   let ostrich = document.getElementById("gertrude");
+//   console.log(ostrich.src);
+// </script>
+
+
+// We can now change stuff in the DOM
+// Almost everything can be changed.
+// But I think is time to play arround with some stuff. How do I
+// see the effects of js without having graphical elements? I cant.
