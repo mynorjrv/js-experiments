@@ -1,7 +1,13 @@
-const divs = document.querySelectorAll('div.punto');
+// https://stackoverflow.com/questions/1248081/how-to-get-the-browser-viewport-dimensions
+//
+// For some reason, getting the size is difficult xd
+//
 
-let viewportWidth = window.innerWidth;
-let viewportHeight = window.innerHeight;
+let vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+let vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
+
+let viewportWidth = vw;
+let viewportHeight = vh;
 
 let puntoDiameter = divs[0].style.width;
 
