@@ -65,8 +65,7 @@ function project({x, y, z}) {
     }
 }
 
-
-clear()
+// clear()
 // point(100, 100)
 
 // I create a poin, then I convert coordinates,
@@ -84,4 +83,78 @@ clear()
 // inside the eye which is strange.
 // z should be larger than the distance to the screen
 // (which i actually dont know how we determine)
-point(screen(project({x: 0, y: 0, z: 1})))
+// point(screen(project({x: 0, y: 0, z: 1})))
+
+// We are animating a point moving away, it moves towards
+// the fugue point (vanishing point xd)
+// const FPS = 60;
+// let dz = 0;
+
+// function frame() {
+//     const dt = 1/FPS;
+//     dz += 1*dt;
+//     clear()
+//     point(screen(project({x: 0.5, y: 0, z: 1 + dz})))
+//     // We can add another point
+//     point(screen(project({x: -0.5, y: 0, z: 1 + dz})))
+//     // or another four
+//     point(screen(project({x: 0.5, y: 0.5, z: 1 + dz})))
+//     point(screen(project({x: -0.5, y: 0.5, z: 1 + dz})))
+//     point(screen(project({x: 0.5, y: -0.5, z: 1 + dz})))
+//     point(screen(project({x: -0.5, y: -0.5, z: 1 + dz})))
+//     setTimeout(frame, 1000/FPS);
+// }
+// setTimeout(frame, 1000/FPS);
+
+// As I understand, we are actually making an infinite loop
+// where we infinitely call the next frame xd
+
+// Lets do it with an array n.n
+function translate_z({x, y, z}, dz) {
+    return {x, y, z:z + dz};
+}
+
+// const FPS = 60;
+// let dz = 0;
+
+// const vs = [
+//     {x:  0.5, y:  0.5, z: 1 + dz},
+//     {x: -0.5, y:  0.5, z: 1 + dz},
+//     {x:  0.5, y: -0.5, z: 1 + dz},
+//     {x: -0.5, y: -0.5, z: 1 + dz}
+// ]
+
+// Lets see all the cube
+// we are starting at the center of the cube
+// the we are exiting and watching the cube move away
+// let dz = 1;
+
+// const vs = [
+//     {x:  0.5, y:  0.5, z: 0.5},
+//     {x: -0.5, y:  0.5, z: 0.5},
+//     {x:  0.5, y: -0.5, z: 0.5},
+//     {x: -0.5, y: -0.5, z: 0.5},
+
+//     {x:  0.5, y:  0.5, z: -0.5},
+//     {x: -0.5, y:  0.5, z: -0.5},
+//     {x:  0.5, y: -0.5, z: -0.5},
+//     {x: -0.5, y: -0.5, z: -0.5},
+// ]
+
+// function frame() {
+//     const dt = 1/FPS;
+//     dz += 1*dt;
+//     clear()
+//     for (const v of vs) {
+//         point(screen(project(translate_z(v, dz))))
+//     }
+//     setTimeout(frame, 1000/FPS);
+// }
+// setTimeout(frame, 1000/FPS);
+
+
+// Lets add stuff xd lets rotate the cube
+// And im going to stop hwre today xd
+function rotate_xz({x, y, z}, angle) {
+    return 0
+}
